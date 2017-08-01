@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         new AddStockDialog().show(getFragmentManager(), "StockDialogFragment");
     }
 
-    void addStock(String symbol) {
+    void addStock(String symbol, boolean isValid) {
         Timber.d("in addStock(), symbol received is: " + symbol.toString());
-        if (symbol != null && !symbol.isEmpty()) {
+        if (isValid) {
 
             if (networkUp()) {
                 Timber.d("in addStock(), network is up, will refresh layout");
@@ -132,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Timber.d("calling PrefUtils.addStock passing args: " + this + " and: " + symbol);
             PrefUtils.addStock(this, symbol);
             QuoteSyncJob.syncImmediately(this);
+        }else {
+            //TODO working on showing error - getting looper error message, cant create handler inside thread....
+            Toast.makeText(getApplicationContext(), "The stock symbol you entered does not exist, please try another", Toast.LENGTH_SHORT).show();
         }
     }
 
