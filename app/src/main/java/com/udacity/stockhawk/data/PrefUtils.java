@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import timber.log.Timber;
+
 public final class PrefUtils {
 
     private PrefUtils() {
@@ -38,10 +40,12 @@ public final class PrefUtils {
     }
 
     private static void editStockPref(Context context, String symbol, Boolean add) {
+        Timber.d("in editStockPref()...symbol is: " + symbol + " and add = " + add);
         String key = context.getString(R.string.pref_stocks_key);
         Set<String> stocks = getStocks(context);
 
         if (add) {
+            Timber.d("adding: " + symbol + " to stocks");
             stocks.add(symbol);
         } else {
             stocks.remove(symbol);
@@ -49,11 +53,13 @@ public final class PrefUtils {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
+        Timber.d("editing shared prefs, putting in StingSet: " + stocks.toString());
         editor.putStringSet(key, stocks);
         editor.apply();
     }
 
     public static void addStock(Context context, String symbol) {
+        Timber.d("in addStock()...calling editStockPref(context, symbol, true)");
         editStockPref(context, symbol, true);
     }
 

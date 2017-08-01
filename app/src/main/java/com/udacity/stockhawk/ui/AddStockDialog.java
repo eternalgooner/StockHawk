@@ -5,7 +5,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
 import android.content.DialogInterface;
+import android.content.Loader;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,15 +20,20 @@ import android.widget.TextView;
 
 import com.udacity.stockhawk.R;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
+import yahoofinance.YahooFinance;
 
 
-public class AddStockDialog extends DialogFragment {
+public class AddStockDialog extends DialogFragment implements LoaderManager.LoaderCallbacks<Boolean>{
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.dialog_stock)
     EditText stock;
+    private static final int YAHOO_FINANCE_LOADER = 191;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -66,11 +74,67 @@ public class AddStockDialog extends DialogFragment {
     }
 
     private void addStock() {
+        //TODO perform check here to see if user stock is real/available
+        Bundle queryStockBundle = new Bundle();
+        queryStockBundle.putString("stockToCheck", stock.getText().toString());
+
+        LoaderManager loaderManager = getLoaderManager();
+        loaderManager.initLoader(YAHOO_FINANCE_LOADER, queryStockBundle, this).forceLoad();
+
+        Timber.d("in addStock - beginning to add stock");
         Activity parent = getActivity();
         if (parent instanceof MainActivity) {
+            Timber.d("calling addStock in MainActivity, passing as param: " + stock.getText().toString());
             ((MainActivity) parent).addStock(stock.getText().toString());
         }
         dismissAllowingStateLoss();
+    }
+
+
+    @Override
+    public Loader<Boolean> onCreateLoader(final int id, final Bundle args) {
+        return new AsyncTaskLoader<Boolean>(this.getActivity().getApplicationContext()) {
+            @Override
+            public Boolean loadInBackground() {
+                String stockToCheck = args.getString("stockToCheck");
+                if(id == YAHOO_FINANCE_LOADER){
+                    return isStockValid(stockToCheck);
+                }
+                return null;
+            }
+
+            //TODO left off here - checking if stock is valid - using ATL - might need to go back to main activity & put method calls in onPostExecute()
+            //TODO so they only happen if it's valid or not
+            private Boolean isStockValid(String stockToCheck) {
+                boolean isValidStock = false;
+                try {
+                    isValidStock = YahooFinance.get(stock.getText().toString()).isValid();
+                    if(isValidStock){
+                        Timber.d("trying to add new stock, calling YahooFinance.get(" + stock.getText().toString() + ") returned VALID. Exiting addStock()");
+                        return true;
+                    }
+                }catch (NullPointerException npe){
+                    Timber.e("NullPointerException thrown - not valid stock");
+                    npe.printStackTrace();
+                } catch (IOException e) {
+                    Timber.e("error in addStock try block, checking if stock request is INVALID");
+                    e.printStackTrace();
+                }
+                Timber.d("returning false from ATL - invalid stock");
+                return false;
+            }
+        };
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Boolean> loader, Boolean data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Boolean> loader) {
+
     }
 
 

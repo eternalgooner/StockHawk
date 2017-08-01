@@ -62,6 +62,7 @@ public final class QuoteSyncJob {
                 return;
             }
 
+            //this statment returns null data for the yahoo stock - other 3 are fine
             Map<String, Stock> quotes = YahooFinance.get(stockArray);
             Iterator<String> iterator = stockCopy.iterator();
 
@@ -74,6 +75,7 @@ public final class QuoteSyncJob {
                 Timber.d("symbol from iterator is: " + symbol);
 
                 Stock stock = quotes.get(symbol);
+                //yahoo data coming back was null so needed this check to allow app to run without crashing
                 if(!stock.toString().contains("null")) {
                     Timber.d("stock to string is: " + stock);
                     StockQuote quote = stock.getQuote();

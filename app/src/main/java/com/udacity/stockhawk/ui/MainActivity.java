@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -117,15 +118,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     void addStock(String symbol) {
+        Timber.d("in addStock(), symbol received is: " + symbol.toString());
         if (symbol != null && !symbol.isEmpty()) {
 
             if (networkUp()) {
+                Timber.d("in addStock(), network is up, will refresh layout");
                 swipeRefreshLayout.setRefreshing(true);
             } else {
                 String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             }
 
+            Timber.d("calling PrefUtils.addStock passing args: " + this + " and: " + symbol);
             PrefUtils.addStock(this, symbol);
             QuoteSyncJob.syncImmediately(this);
         }
