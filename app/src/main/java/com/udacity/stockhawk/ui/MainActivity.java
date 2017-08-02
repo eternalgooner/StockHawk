@@ -1,6 +1,7 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -25,6 +26,8 @@ import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -44,14 +47,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.error)
     TextView error;
     private StockAdapter adapter;
+    private Float[] floatArray;
 
     @Override
     public void onClick(String symbol) {
+        //TODO add correct flaot array here - switch?
         Timber.d("Symbol clicked: %s", symbol);
+        Intent intent = new Intent(this, StockHistoryActivity.class);
+        intent.putExtra("stockSymbol", symbol);
+        intent.putExtra("floatArray", floatArray);
+        startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Timber.d("in onCreate()");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -83,6 +93,80 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }).attachToRecyclerView(stockRecyclerView);
 
 
+        Cursor cursor = getAllhistory();
+        displayCursor(cursor);
+
+    }
+
+    private void displayCursor(Cursor cursor) {
+        Timber.d("cursor count is: " + cursor.getCount());
+
+        while (cursor.moveToNext()){
+            Timber.d("cursor column count is: " + cursor.getColumnCount());
+            Timber.d("column name is: " + cursor.getColumnName(0));
+            Timber.d("value in column is: " + cursor.getString(0));
+
+            Timber.d("column name is: " + cursor.getColumnName(1));
+            Timber.d("value in column is: " + cursor.getString(1));
+
+            Timber.d("column name is: " + cursor.getColumnName(2));
+            Timber.d("value in column is: " + cursor.getString(2));
+
+            Timber.d("column name is: " + cursor.getColumnName(3));
+            Timber.d("value in column is: " + cursor.getString(3));
+
+            Timber.d("column name is: " + cursor.getColumnName(4));
+            Timber.d("value in column is: " + cursor.getString(4));
+
+            Timber.d("column name is: " + cursor.getColumnName(5));
+            Timber.d("value in column is: " + cursor.getString(5));
+
+            initAllStockHistory(cursor.getString(5));
+        }
+    }
+
+    private void initAllStockHistory(String history) {
+        Timber.d("in initAllStockHistory()");
+        ArrayList<Float[]> stockHistory = new ArrayList<>();
+        stockHistory.add(convertStringHistoryToFloatArray(history));
+    }
+
+    private Float[] convertStringHistoryToFloatArray(String history) {
+        Timber.d("in convertStringHistoryToFloatArray()");
+        ArrayList<String> splitString = new ArrayList<>();
+        String[] strArray = (history.split("\n"));
+
+        ArrayList<String[]> stArrList = new ArrayList<>();
+
+        for(String str: strArray){
+            stArrList.add(str.split(","));
+        }
+        Timber.d("size of split array is: " + stArrList.size());
+
+
+
+        Float[] floatArray = new Float[stArrList.size()];
+        for(int i = 0; i < stArrList.size(); ++i){
+            //if(i % 2 == 0) continue;
+            Timber.d("float price is: " + stArrList.get(i)[1]);
+            floatArray[i] = Float.parseFloat(stArrList.get(i)[1].trim());
+            //Timber.d(strArray[i]);
+        }
+        return floatArray;
+    }
+
+    private Cursor getAllhistory() {
+        try{
+            return getContentResolver().query(Contract.Quote.URI,
+                    null,
+                    null,
+                    null,
+                    null);
+        }catch (Exception e){
+            Timber.d("failed to get all history from DB");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private boolean networkUp() {
