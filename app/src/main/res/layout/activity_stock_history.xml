@@ -16,11 +16,48 @@
         android:gravity="center"
         android:layout_weight="1"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="May 2015"
+            android:paddingStart="16dp"
+            android:layout_weight="1"
+            android:background="@color/chartBackgroundColour"
+            android:textColor="#000000"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="May 2016"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:background="@color/chartBackgroundColour"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="May 2017"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:paddingEnd="16dp"
+            android:textColor="#000000"
+            android:background="@color/chartBackgroundColour"/>
+
+
+    </LinearLayout>
+
     <com.github.mikephil.charting.charts.BarChart
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingTop="16dp"
         android:id="@+id/bar_chart"
-        android:layout_weight="5"
+        android:layout_weight="6"
         android:layout_marginBottom="16dp"
         android:scrollbarAlwaysDrawHorizontalTrack="true"></com.github.mikephil.charting.charts.BarChart>
 

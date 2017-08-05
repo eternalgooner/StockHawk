@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.error)
     TextView error;
     private StockAdapter adapter;
-    private Float[] floatArray;
+    private float[] selectedStockHistoryFloatArray;
 
     @Override
     public void onClick(String symbol) {
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Timber.d("Symbol clicked: %s", symbol);
         Intent intent = new Intent(this, StockHistoryActivity.class);
         intent.putExtra("stockSymbol", symbol);
-        intent.putExtra("floatArray", floatArray);
+        intent.putExtra("stockHistory", selectedStockHistoryFloatArray);
         startActivity(intent);
     }
 
@@ -127,11 +127,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void initAllStockHistory(String history) {
         Timber.d("in initAllStockHistory()");
-        ArrayList<Float[]> stockHistory = new ArrayList<>();
+        ArrayList<float[]> stockHistory = new ArrayList<>();
         stockHistory.add(convertStringHistoryToFloatArray(history));
     }
 
-    private Float[] convertStringHistoryToFloatArray(String history) {
+    private float[] convertStringHistoryToFloatArray(String history) {
         Timber.d("in convertStringHistoryToFloatArray()");
         ArrayList<String> splitString = new ArrayList<>();
         String[] strArray = (history.split("\n"));
@@ -145,14 +145,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
-        Float[] floatArray = new Float[stArrList.size()];
+        selectedStockHistoryFloatArray = new float[stArrList.size()];
         for(int i = 0; i < stArrList.size(); ++i){
             //if(i % 2 == 0) continue;
             Timber.d("float price is: " + stArrList.get(i)[1]);
-            floatArray[i] = Float.parseFloat(stArrList.get(i)[1].trim());
+            selectedStockHistoryFloatArray[i] = Float.parseFloat(stArrList.get(i)[1].trim());
             //Timber.d(strArray[i]);
         }
-        return floatArray;
+        return selectedStockHistoryFloatArray;
     }
 
     private Cursor getAllhistory() {
