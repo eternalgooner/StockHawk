@@ -8,11 +8,11 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="@dimen/_0dp"
+        android:layout_marginTop="@dimen/padding_16dp"
+        android:layout_marginBottom="@dimen/padding_16dp"
         android:id="@+id/txt_stock_name"
-        android:textSize="24sp"
+        android:textSize="@dimen/_24sp"
         android:gravity="center"
         android:layout_weight="1"/>
 
@@ -24,8 +24,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="May 2015"
-            android:paddingStart="16dp"
+            android:text="@string/stock_start_may_2015"
+            android:paddingStart="@dimen/padding_16dp"
+            android:paddingEnd="@dimen/_0dp"
             android:layout_weight="1"
             android:background="@color/chartBackgroundColour"
             android:textColor="#000000"/>
@@ -33,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="May 2016"
+            android:text="@string/stock_mid_date_may_2016"
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="#000000"
@@ -42,10 +43,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="May 2017"
+            android:text="@string/stock_end_date_may_2017"
             android:layout_weight="1"
             android:gravity="end"
-            android:paddingEnd="16dp"
+            android:paddingStart="@dimen/_0dp"
+            android:paddingEnd="@dimen/padding_16dp"
             android:textColor="#000000"
             android:background="@color/chartBackgroundColour"/>
 
@@ -54,11 +56,11 @@
 
     <com.github.mikephil.charting.charts.BarChart
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingTop="16dp"
+        android:layout_height="@dimen/_0dp"
+        android:paddingTop="@dimen/padding_16dp"
         android:id="@+id/bar_chart"
         android:layout_weight="6"
-        android:layout_marginBottom="16dp"
-        android:scrollbarAlwaysDrawHorizontalTrack="true"></com.github.mikephil.charting.charts.BarChart>
+        android:layout_marginBottom="@dimen/padding_16dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true" />
 
 </LinearLayout>

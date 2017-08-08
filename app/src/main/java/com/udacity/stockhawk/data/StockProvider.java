@@ -15,6 +15,11 @@ public class StockProvider extends ContentProvider {
 
     private static final int QUOTE = 100;
     private static final int QUOTE_FOR_SYMBOL = 101;
+    private static final String UNKNOWN_URI = "Unknown URI:";
+    private static final String EQUALS_QUESTION_MARK = " = ?";
+    private static final String QUOTES = "\"";
+    private static final String SPACE_EQUALS = " =";
+    private static final String ONE = "1";
 
     private static final UriMatcher uriMatcher = buildUriMatcher();
 
@@ -57,7 +62,7 @@ public class StockProvider extends ContentProvider {
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,
                         projection,
-                        Contract.Quote.COLUMN_SYMBOL + " = ?",
+                        Contract.Quote.COLUMN_SYMBOL + EQUALS_QUESTION_MARK,
                         new String[]{Contract.Quote.getStockFromUri(uri)},
                         null,
                         null,
@@ -66,7 +71,7 @@ public class StockProvider extends ContentProvider {
 
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown URI:" + uri);
+                throw new UnsupportedOperationException(UNKNOWN_URI + uri);
         }
 
         Context context = getContext();
@@ -99,7 +104,7 @@ public class StockProvider extends ContentProvider {
                 returnUri = Contract.Quote.URI;
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown URI:" + uri);
+                throw new UnsupportedOperationException(UNKNOWN_URI + uri);
         }
 
         Context context = getContext();
@@ -116,7 +121,7 @@ public class StockProvider extends ContentProvider {
         int rowsDeleted;
 
         if (null == selection) {
-            selection = "1";
+            selection = ONE;
         }
         switch (uriMatcher.match(uri)) {
             case QUOTE:
@@ -132,12 +137,12 @@ public class StockProvider extends ContentProvider {
                 String symbol = Contract.Quote.getStockFromUri(uri);
                 rowsDeleted = db.delete(
                         Contract.Quote.TABLE_NAME,
-                        '"' + symbol + '"' + " =" + Contract.Quote.COLUMN_SYMBOL,
+                        QUOTES + symbol + QUOTES + SPACE_EQUALS + Contract.Quote.COLUMN_SYMBOL,
                         selectionArgs
                 );
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown URI:" + uri);
+                throw new UnsupportedOperationException(UNKNOWN_URI + uri);
         }
 
         if (rowsDeleted != 0) {

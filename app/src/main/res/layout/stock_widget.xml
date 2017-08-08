@@ -10,12 +10,12 @@
             android:id="@+id/appwidget_stock_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:contentDescription="stock name"
+            android:layout_margin="@dimen/widget_margin_8dp"
+            android:contentDescription="@string/widget_stock_name"
             android:gravity="center"
             android:text="@string/appwidget_text"
             android:textColor="#ffffff"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold|italic"
             tools:text="AAPL" />
 
@@ -23,9 +23,9 @@
             android:id="@+id/appwidget_stock_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            tools:text="55"
-            android:drawableLeft="@drawable/ic_dollar"/>
+            android:textSize="18sp"
+            tools:text="@string/widget_test_text_55"
+            android:drawableStart="@drawable/ic_dollar"/>
 
 
 </LinearLayout>

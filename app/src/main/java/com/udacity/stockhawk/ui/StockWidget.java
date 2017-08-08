@@ -18,11 +18,11 @@ public class StockWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = "AAPL";
+        CharSequence widgetText = context.getString(R.string.AAPL);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.stock_widget);
         views.setTextViewText(R.id.appwidget_stock_name, widgetText);
-        views.setTextViewText(R.id.appwidget_stock_price, "55");
+        views.setTextViewText(R.id.appwidget_stock_price, context.getString(R.string._55));
 
         //create intent to launch main activity when clicked
         Intent intent = new Intent(context, MainActivity.class);

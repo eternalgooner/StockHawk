@@ -28,6 +28,9 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     private final DecimalFormat percentageFormat;
     private Cursor cursor;
     private final StockAdapterOnClickHandler clickHandler;
+    private static final int ONE_HUNDRED = 100;
+    private static final int ZERO = 0;
+    private static final int TWO = 2;
 
     StockAdapter(Context context, StockAdapterOnClickHandler clickHandler) {
         this.context = context;
@@ -35,11 +38,11 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
         dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
         dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-        dollarFormatWithPlus.setPositivePrefix("+$");
+        dollarFormatWithPlus.setPositivePrefix(context.getString(R.string.plusDollar));   
         percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
-        percentageFormat.setMaximumFractionDigits(2);
-        percentageFormat.setMinimumFractionDigits(2);
-        percentageFormat.setPositivePrefix("+");
+        percentageFormat.setMaximumFractionDigits(TWO);
+        percentageFormat.setMinimumFractionDigits(TWO);
+        percentageFormat.setPositivePrefix(context.getString(R.string.plus));
     }
 
     void setCursor(Cursor cursor) {
@@ -74,14 +77,14 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
         float rawAbsoluteChange = cursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
         float percentageChange = cursor.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
 
-        if (rawAbsoluteChange > 0) {
+        if (rawAbsoluteChange > ZERO) {
             holder.change.setBackgroundResource(R.drawable.percent_change_pill_green);
         } else {
             holder.change.setBackgroundResource(R.drawable.percent_change_pill_red);
         }
 
         String change = dollarFormatWithPlus.format(rawAbsoluteChange);
-        String percentage = percentageFormat.format(percentageChange / 100);
+        String percentage = percentageFormat.format(percentageChange / ONE_HUNDRED);
 
         if (PrefUtils.getDisplayMode(context)
                 .equals(context.getString(R.string.pref_display_mode_absolute_key))) {
@@ -95,7 +98,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
     @Override
     public int getItemCount() {
-        int count = 0;
+        int count = ZERO;
         if (cursor != null) {
             count = cursor.getCount();
         }

@@ -38,7 +38,8 @@
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <activity android:name=".ui.StockHistoryActivity" />
+        <activity android:name=".ui.StockHistoryActivity"
+            android:parentActivityName=".ui.MainActivity"/>
 
         <receiver android:name=".ui.StockWidget">
             <intent-filter>

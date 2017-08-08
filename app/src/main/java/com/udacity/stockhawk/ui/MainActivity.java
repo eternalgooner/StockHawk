@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -53,9 +54,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onClick(String symbol) {
         //TODO add correct flaot array here - switch?
         Timber.d("Symbol clicked: %s", symbol);
+        getAllHistoryAndDisplay();
         Intent intent = new Intent(this, StockHistoryActivity.class);
-        intent.putExtra("stockSymbol", symbol);
-        intent.putExtra("stockHistory", selectedStockHistoryFloatArray);
+        intent.putExtra(getString(R.string.stockSymbol), symbol);
+        intent.putExtra(getString(R.string.stockHistory), selectedStockHistoryFloatArray);
         startActivity(intent);
     }
 
@@ -92,13 +94,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         }).attachToRecyclerView(stockRecyclerView);
 
+        getAllHistoryAndDisplay();
+    }
 
+    private void getAllHistoryAndDisplay() {
+        Timber.d("in getAllHistoryAndDisplay()");
         Cursor cursor = getAllhistory();
         displayCursor(cursor);
-
     }
 
     private void displayCursor(Cursor cursor) {
+        Timber.d("in displayCursor()");
         Timber.d("cursor count is: " + cursor.getCount());
 
         while (cursor.moveToNext()){
@@ -134,23 +140,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private float[] convertStringHistoryToFloatArray(String history) {
         Timber.d("in convertStringHistoryToFloatArray()");
         ArrayList<String> splitString = new ArrayList<>();
-        String[] strArray = (history.split("\n"));
+        String[] strArray = (history.split(getString(R.string.newLine)));
 
         ArrayList<String[]> stArrList = new ArrayList<>();
 
         for(String str: strArray){
-            stArrList.add(str.split(","));
+            stArrList.add(str.split(getString(R.string.comma)));
         }
         Timber.d("size of split array is: " + stArrList.size());
 
-
-
         selectedStockHistoryFloatArray = new float[stArrList.size()];
+        Timber.d("checking if selectedStockHistoryFloatArray is null");
+
         for(int i = 0; i < stArrList.size(); ++i){
-            //if(i % 2 == 0) continue;
             Timber.d("float price is: " + stArrList.get(i)[1]);
             selectedStockHistoryFloatArray[i] = Float.parseFloat(stArrList.get(i)[1].trim());
-            //Timber.d(strArray[i]);
         }
         return selectedStockHistoryFloatArray;
     }
@@ -198,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     public void button(@SuppressWarnings("UnusedParameters") View view) {
-        new AddStockDialog().show(getFragmentManager(), "StockDialogFragment");
+        new AddStockDialog().show(getFragmentManager(), getString(R.string.StockDialogFragment));
     }
 
     void addStock(String symbol, boolean isValid) {
@@ -207,7 +211,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             if (networkUp()) {
                 Timber.d("in addStock(), network is up, will refresh layout");
-                swipeRefreshLayout.setRefreshing(true);
+                //TODO can't touch view from thread that didn't create it
+                refreshUi();
+                //swipeRefreshLayout.setRefreshing(true);
             } else {
                 String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
@@ -217,9 +223,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             PrefUtils.addStock(this, symbol);
             QuoteSyncJob.syncImmediately(this);
         }else {
-            //TODO working on showing error - getting looper error message, cant create handler inside thread....
-            Toast.makeText(getApplicationContext(), "The stock symbol you entered does not exist, please try another", Toast.LENGTH_SHORT).show();
+            Timber.d("if invalid stock symbol, show toast message");
+            showToast();
         }
+    }
+
+    private void refreshUi() {
+       this.runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               swipeRefreshLayout.setRefreshing(true);
+           }
+       });
     }
 
     @Override
@@ -276,5 +291,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showToast(){
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getBaseContext(), R.string.unfound_stock_msg, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

@@ -10,6 +10,7 @@ import android.content.AsyncTaskLoader;
 import android.content.DialogInterface;
 import android.content.Loader;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +82,7 @@ public class AddStockDialog extends DialogFragment implements LoaderManager.Load
         //TODO perform check here to see if user stock is real/available
         Timber.d("in addStock()..putting stock query into bundle to pass to Loader");
         Bundle queryStockBundle = new Bundle();
-        queryStockBundle.putString("stockToCheck", stock.getText().toString());
+        queryStockBundle.putString(getString(R.string.stockToCheck), stock.getText().toString());
 
         LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(YAHOO_FINANCE_LOADER, queryStockBundle, this).forceLoad();
@@ -103,7 +104,7 @@ public class AddStockDialog extends DialogFragment implements LoaderManager.Load
             @Override
             public Boolean loadInBackground() {
                 Timber.d("in loadInBackground in ATL");
-                String stockToCheck = args.getString("stockToCheck");
+                String stockToCheck = args.getString(getString(R.string.stockToCheck));
                 if(id == YAHOO_FINANCE_LOADER){
                     Timber.d("loader ID matched for yahoo finance loader");
                     return isStockValid(stockToCheck);
@@ -145,7 +146,8 @@ public class AddStockDialog extends DialogFragment implements LoaderManager.Load
             ((MainActivity) parent).addStock(stock.getText().toString(), data);
         }else {
             Timber.d("in onLoadFinished in ATL - parent is not instance of MainActivity & won't be added to stock list");
-//          Toast.makeText(parent.getApplicationContext(), "The stock symbol you entered does not exist, please try another", Toast.LENGTH_SHORT).show();
+            //Looper.prepare();
+            //Toast.makeText(parent.getApplicationContext(), "The stock symbol you entered does not exist, please try another", Toast.LENGTH_SHORT).show();
             ((MainActivity) parent).addStock(stock.getText().toString(), data);
         }
     }
