@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.data.StockProvider;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
 
 import java.util.ArrayList;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }).attachToRecyclerView(stockRecyclerView);
 
         getAllHistoryAndDisplay();
+        StockWidgetProvider.sendRefreshBroadcast(this);
     }
 
     private void getAllHistoryAndDisplay() {
@@ -108,24 +110,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Timber.d("cursor count is: " + cursor.getCount());
 
         while (cursor.moveToNext()){
-            Timber.d("cursor column count is: " + cursor.getColumnCount());
-            Timber.d("column name is: " + cursor.getColumnName(0));
-            Timber.d("value in column is: " + cursor.getString(0));
-
-            Timber.d("column name is: " + cursor.getColumnName(1));
-            Timber.d("value in column is: " + cursor.getString(1));
-
-            Timber.d("column name is: " + cursor.getColumnName(2));
-            Timber.d("value in column is: " + cursor.getString(2));
-
-            Timber.d("column name is: " + cursor.getColumnName(3));
-            Timber.d("value in column is: " + cursor.getString(3));
-
-            Timber.d("column name is: " + cursor.getColumnName(4));
-            Timber.d("value in column is: " + cursor.getString(4));
-
-            Timber.d("column name is: " + cursor.getColumnName(5));
-            Timber.d("value in column is: " + cursor.getString(5));
+//            Timber.d("cursor column count is: " + cursor.getColumnCount());
+//            Timber.d("column name is: " + cursor.getColumnName(0));
+//            Timber.d("value in column is: " + cursor.getString(0));
+//
+//            Timber.d("column name is: " + cursor.getColumnName(1));
+//            Timber.d("value in column is: " + cursor.getString(1));
+//
+//            Timber.d("column name is: " + cursor.getColumnName(2));
+//            Timber.d("value in column is: " + cursor.getString(2));
+//
+//            Timber.d("column name is: " + cursor.getColumnName(3));
+//            Timber.d("value in column is: " + cursor.getString(3));
+//
+//            Timber.d("column name is: " + cursor.getColumnName(4));
+//            Timber.d("value in column is: " + cursor.getString(4));
+//
+//            Timber.d("column name is: " + cursor.getColumnName(5));
+//            Timber.d("value in column is: " + cursor.getString(5));
 
             initAllStockHistory(cursor.getString(5));
         }
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Timber.d("checking if selectedStockHistoryFloatArray is null");
 
         for(int i = 0; i < stArrList.size(); ++i){
-            Timber.d("float price is: " + stArrList.get(i)[1]);
+            //Timber.d("float price is: " + stArrList.get(i)[1]);
             selectedStockHistoryFloatArray[i] = Float.parseFloat(stArrList.get(i)[1].trim());
         }
         return selectedStockHistoryFloatArray;
@@ -213,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Timber.d("in addStock(), network is up, will refresh layout");
                 //TODO can't touch view from thread that didn't create it
                 refreshUi();
+                StockWidgetProvider.sendRefreshBroadcast(this);
                 //swipeRefreshLayout.setRefreshing(true);
             } else {
                 String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
