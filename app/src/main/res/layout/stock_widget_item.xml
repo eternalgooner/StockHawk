@@ -16,6 +16,8 @@
             android:text="@string/appwidget_text"
             android:textColor="#ffffff"
             android:textSize="18sp"
+            android:paddingStart="@dimen/widget_margin_8dp"
+            android:paddingEnd="@dimen/widget_margin_8dp"
             android:textStyle="bold|italic"
             tools:text="AAPL" />
 

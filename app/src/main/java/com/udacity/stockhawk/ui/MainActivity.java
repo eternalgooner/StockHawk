@@ -206,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         new AddStockDialog().show(getFragmentManager(), getString(R.string.StockDialogFragment));
     }
 
+    //TODO need to add stock to DB using content provider? stockprovider
     void addStock(String symbol, boolean isValid) {
         Timber.d("in addStock(), symbol received is: " + symbol.toString());
         if (isValid) {
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Timber.d("in addStock(), network is up, will refresh layout");
                 refreshUi();
                 StockWidgetProvider.sendRefreshBroadcast(this);
-                //swipeRefreshLayout.setRefreshing(true);
+                swipeRefreshLayout.setRefreshing(true);
             } else {
                 String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();

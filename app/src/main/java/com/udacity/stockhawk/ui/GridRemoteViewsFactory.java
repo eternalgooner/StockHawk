@@ -56,6 +56,7 @@ public class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     @Override
     public RemoteViews getViewAt(int position) {
         Timber.d("in getViewAt() position: " + position);
+        cursor.moveToPosition(position);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.stock_widget_item);
         remoteViews.setTextViewText(R.id.appwidget_stock_name, cursor.getString(1));
         remoteViews.setTextViewText(R.id.appwidget_stock_price, cursor.getString(2));
@@ -76,7 +77,8 @@ public class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     @Override
     public long getItemId(int position) {
         Timber.d("in getItemId(), position: " + position);
-        return cursor.moveToPosition(position) ? cursor.getLong(0) : position;
+        //return cursor.moveToPosition(position) ? cursor.getLong(0) : position;
+        return 1;
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
 import com.udacity.stockhawk.R;
@@ -40,14 +41,29 @@ public class StockWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Timber.d("in onUpdate(), no, of widgets is: " + appWidgetIds.length);
+
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.stock_widget_item);
+            Timber.d("in for loop updating widget");
+            //views.setTextViewText(R.id.appwidget_stock_name, "test");
+            //views.setTextViewText(R.id.appwidget_stock_price, "57");
+
             Intent intent = new Intent(context, StockWidgetRemoteViewsService.class);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.stock_widget_grid);
+
             views.setRemoteAdapter(R.id.stock_widget_grid, intent);
-            appWidgetManager.updateAppWidget(appWidgetIds, views);
+
+            //pending intent to start app on click widget click
+            //PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            //views.setOnClickPendingIntent(R.id.stock_widget_grid, pendingIntent);
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+            //appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.stock_widget_grid);
             //updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
@@ -78,6 +94,8 @@ public class StockWidgetProvider extends AppWidgetProvider {
             AppWidgetManager manager = AppWidgetManager.getInstance(context);
             ComponentName componentName = new ComponentName(context, StockWidgetProvider.class);
             manager.notifyAppWidgetViewDataChanged(manager.getAppWidgetIds(componentName), R.id.stock_widget_grid);
+            //manager.updateAppWidget(componentName, null);
+            //manager.updateAppWidget();
             super.onReceive(context, intent);
         }
     }
