@@ -79,7 +79,6 @@ public class AddStockDialog extends DialogFragment implements LoaderManager.Load
     }
 
     private void addStock() {
-        //TODO perform check here to see if user stock is real/available
         Timber.d("in addStock()..putting stock query into bundle to pass to Loader");
         Bundle queryStockBundle = new Bundle();
         queryStockBundle.putString(getString(R.string.stockToCheck), stock.getText().toString());
@@ -88,11 +87,6 @@ public class AddStockDialog extends DialogFragment implements LoaderManager.Load
         loaderManager.initLoader(YAHOO_FINANCE_LOADER, queryStockBundle, this).forceLoad();
 
         Timber.d("in addStock - Loader has been executed...await results");
-//        Activity parent = getActivity();
-//        if (parent instanceof MainActivity) {
-//            Timber.d("calling addStock in MainActivity, passing as param: " + stock.getText().toString());
-//            ((MainActivity) parent).addStock(stock.getText().toString());
-//        }
         dismissAllowingStateLoss();
     }
 
@@ -123,6 +117,12 @@ public class AddStockDialog extends DialogFragment implements LoaderManager.Load
                         onLoadFinished(null, true);
                         return true;
                     }
+                }catch (StringIndexOutOfBoundsException sioobe){
+                    Timber.e("StringIndexOutOfBoundsException thrown - trying to get stock from YahooFinance");
+                    sioobe.printStackTrace();
+                }catch (ArrayIndexOutOfBoundsException aioobe){
+                    Timber.e("ArrayIndexOutOfBoundsException thrown - trying to get stock from YahooFinance");
+                    aioobe.printStackTrace();
                 }catch (NullPointerException npe){
                     Timber.e("NullPointerException thrown - trying to get stock from YahooFinance");
                     npe.printStackTrace();
@@ -146,8 +146,6 @@ public class AddStockDialog extends DialogFragment implements LoaderManager.Load
             ((MainActivity) parent).addStock(stock.getText().toString(), data);
         }else {
             Timber.d("in onLoadFinished in ATL - parent is not instance of MainActivity & won't be added to stock list");
-            //Looper.prepare();
-            //Toast.makeText(parent.getApplicationContext(), "The stock symbol you entered does not exist, please try another", Toast.LENGTH_SHORT).show();
             ((MainActivity) parent).addStock(stock.getText().toString(), data);
         }
     }

@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onClick(String symbol) {
-        //TODO add correct flaot array here - switch?
         Timber.d("Symbol clicked: %s", symbol);
         getAllHistoryAndDisplay();
         Intent intent = new Intent(this, StockHistoryActivity.class);
@@ -213,7 +212,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             if (networkUp()) {
                 Timber.d("in addStock(), network is up, will refresh layout");
-                //TODO can't touch view from thread that didn't create it
                 refreshUi();
                 StockWidgetProvider.sendRefreshBroadcast(this);
                 //swipeRefreshLayout.setRefreshing(true);
