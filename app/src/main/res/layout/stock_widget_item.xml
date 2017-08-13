@@ -2,15 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#294b94"
-    android:padding="@dimen/widget_margin"
+    android:background="#000000"
     android:orientation="vertical">
 
         <TextView
             android:id="@+id/appwidget_stock_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/widget_margin_8dp"
             android:contentDescription="@string/widget_stock_name"
             android:gravity="center"
             android:text="@string/appwidget_text"
@@ -25,9 +23,12 @@
             android:id="@+id/appwidget_stock_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:gravity="center"
+            android:padding="@dimen/widget_margin_8dp"
+            android:textSize="14sp"
             tools:text="@string/widget_test_text_55"
-            android:drawableStart="@drawable/ic_dollar"/>
+            android:drawableStart="@drawable/ic_dollar"
+           />
 
 
 </LinearLayout>

@@ -1,10 +1,12 @@
 package com.udacity.stockhawk.data;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.ui.StockWidgetProvider;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -56,6 +58,7 @@ public final class PrefUtils {
         Timber.d("editing shared prefs, putting in StingSet: " + stocks.toString());
         editor.putStringSet(key, stocks);
         editor.apply();
+        StockWidgetProvider.sendRefreshBroadcast(context);
     }
 
     public static void addStock(Context context, String symbol) {
