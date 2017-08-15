@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -15,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +23,6 @@ import android.widget.Toast;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
-import com.udacity.stockhawk.data.StockProvider;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
 
 import java.util.ArrayList;
@@ -206,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         new AddStockDialog().show(getFragmentManager(), getString(R.string.StockDialogFragment));
     }
 
-    //TODO need to add stock to DB using content provider? stockprovider
     void addStock(String symbol, boolean isValid) {
         Timber.d("in addStock(), symbol received is: " + symbol.toString());
         if (isValid) {

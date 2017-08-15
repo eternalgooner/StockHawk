@@ -2,7 +2,7 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/stock_widget_item"
     android:initialLayout="@layout/stock_widget_item"
-    android:minHeight="@dimen/widget_min_height_40dp"
+    android:minHeight="@dimen/widget_min_height_50dp"
     android:minWidth="@dimen/widget_min_width_320dp"
     android:previewImage="@drawable/example_appwidget_preview"
     android:resizeMode="horizontal|vertical"

@@ -1,6 +1,5 @@
 package com.udacity.stockhawk.data;
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;

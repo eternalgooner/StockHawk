@@ -33,7 +33,6 @@
     <string name="toast_no_connectivity">Will refresh when network available.</string>
     <string name="add_new_stock_button">add new stock button</string>
     <string name="appwidget_text">EXAM</string>
-    <string name="add_widget">Add widget</string>
     <string name="widget_test_text_55" translatable="false">515.58</string>
     <string name="widget_stock_name">stock name</string>
     <string name="stock_end_date_may_2017">May 2017</string>
@@ -48,8 +47,6 @@
     <string name="unfound_stock_msg">The stock symbol you entered does not exist, please try another</string>
     <string name="stock_hist_label">Stock history for:&#160;</string>
     <string name="stock_price_in_Dollars">stock price in Dollars</string>
-    <string name="AAPL" translatable="false">AAPL</string>
-    <string name="_55" translatable="false">55</string>
     <string name="plus" translatable="false">+</string>
     <string name="plusDollar" translatable="false">+$</string>
 

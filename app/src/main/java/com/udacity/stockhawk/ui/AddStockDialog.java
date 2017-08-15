@@ -10,7 +10,6 @@ import android.content.AsyncTaskLoader;
 import android.content.DialogInterface;
 import android.content.Loader;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
 
