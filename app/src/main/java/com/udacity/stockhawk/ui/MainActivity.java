@@ -215,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Timber.d("in addStock(), network is up, will refresh layout");
                 refreshUi();
                 StockWidgetProvider.sendRefreshBroadcast(this);
-                swipeRefreshLayout.setRefreshing(true);
             } else {
                 String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();

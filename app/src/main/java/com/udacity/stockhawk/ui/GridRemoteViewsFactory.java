@@ -1,5 +1,6 @@
 package com.udacity.stockhawk.ui;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -61,6 +62,11 @@ public class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         remoteViews.setTextViewText(R.id.appwidget_stock_name, cursor.getString(1));
         remoteViews.setTextViewText(R.id.appwidget_stock_price, cursor.getString(2));
 
+//        Intent launchMainActivityintent = new Intent(context, MainActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, launchMainActivityintent, 0);
+//
+//        remoteViews.setOnClickPendingIntent(R.id.stock_widget_grid, pendingIntent);
+
         return remoteViews;
     }
 
@@ -77,8 +83,8 @@ public class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     @Override
     public long getItemId(int position) {
         Timber.d("in getItemId(), position: " + position);
-        //return cursor.moveToPosition(position) ? cursor.getLong(0) : position;
-        return 1;
+        return cursor.moveToPosition(position) ? cursor.getLong(0) : position;
+        //return 1;
     }
 
     @Override
