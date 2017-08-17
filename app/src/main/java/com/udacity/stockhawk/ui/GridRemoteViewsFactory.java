@@ -15,6 +15,7 @@ import timber.log.Timber;
 
 /**
  * Created by David on 05-Aug-17.
+ * - code implemented with help of Udacity Advanced Android course & StackOverflow
  */
 
 public class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
@@ -33,13 +34,12 @@ public class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     private static final int ONE_VIEW_TYPE = 1;
     private static final int ZERO = 0;
     private static final String DESC = " DESC";
-    private int appWidgetId;
-    //private List<WidgetItem>
+    //private int appWidgetId;
 
     public GridRemoteViewsFactory(Context applicationContext, Intent intent){
         Timber.d("in constructor()");
         context = applicationContext;
-        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        //appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
 
     @Override
     public long getItemId(int position) {
-        Timber.d("in getItemId(), position: " + position);
+        Timber.d("in getItemId(), position: " + position + " - - if cursor can move to position, return: " + cursor.getLong(ID));
         return cursor.moveToPosition(position) ? cursor.getLong(ID) : position;
     }
 

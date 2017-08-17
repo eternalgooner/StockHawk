@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         StockAdapter.StockAdapterOnClickHandler {
 
     private static final int STOCK_LOADER = 0;
+    private static final int HISTORY = 5;
+    private static final int FIRST_ELEMENT = 1;
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.recycler_view)
     RecyclerView stockRecyclerView;
@@ -106,26 +108,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Timber.d("cursor count is: " + cursor.getCount());
 
         while (cursor.moveToNext()){
-//            Timber.d("cursor column count is: " + cursor.getColumnCount());
-//            Timber.d("column name is: " + cursor.getColumnName(0));
-//            Timber.d("value in column is: " + cursor.getString(0));
-//
-//            Timber.d("column name is: " + cursor.getColumnName(1));
-//            Timber.d("value in column is: " + cursor.getString(1));
-//
-//            Timber.d("column name is: " + cursor.getColumnName(2));
-//            Timber.d("value in column is: " + cursor.getString(2));
-//
-//            Timber.d("column name is: " + cursor.getColumnName(3));
-//            Timber.d("value in column is: " + cursor.getString(3));
-//
-//            Timber.d("column name is: " + cursor.getColumnName(4));
-//            Timber.d("value in column is: " + cursor.getString(4));
-//
-//            Timber.d("column name is: " + cursor.getColumnName(5));
-//            Timber.d("value in column is: " + cursor.getString(5));
-
-            initAllStockHistory(cursor.getString(5));
+            initAllStockHistory(cursor.getString(HISTORY));
         }
     }
 
@@ -137,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private float[] convertStringHistoryToFloatArray(String history) {
         Timber.d("in convertStringHistoryToFloatArray()");
-        ArrayList<String> splitString = new ArrayList<>();
         String[] strArray = (history.split(getString(R.string.newLine)));
 
         ArrayList<String[]> stArrList = new ArrayList<>();
@@ -151,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Timber.d("checking if selectedStockHistoryFloatArray is null");
 
         for(int i = 0; i < stArrList.size(); ++i){
-            //Timber.d("float price is: " + stArrList.get(i)[1]);
-            selectedStockHistoryFloatArray[i] = Float.parseFloat(stArrList.get(i)[1].trim());
+            selectedStockHistoryFloatArray[i] = Float.parseFloat(stArrList.get(i)[FIRST_ELEMENT].trim());
         }
         return selectedStockHistoryFloatArray;
     }

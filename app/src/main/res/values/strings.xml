@@ -32,7 +32,7 @@
     <string name="toast_stock_added_no_connectivity">Symbol %s added. Will refresh when network available.</string>
     <string name="toast_no_connectivity">Will refresh when network available.</string>
     <string name="add_new_stock_button">add new stock button</string>
-    <string name="appwidget_text">EXAM</string>
+    <string name="appwidget_text" translatable="false">EXAM</string>
     <string name="widget_test_text_55" translatable="false">515.58</string>
     <string name="widget_stock_name">stock name</string>
     <string name="stock_end_date_may_2017">May 2017</string>

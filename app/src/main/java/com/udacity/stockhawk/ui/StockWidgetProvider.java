@@ -16,6 +16,7 @@ import timber.log.Timber;
 
 /**
  * Implementation of App Widget functionality.
+ * - code implemented with help of Udacity Advanced Android course & StackOverflow
  */
 public class StockWidgetProvider extends AppWidgetProvider {
     public static final String OPEN_APP_FROM_WIDGET_CLICK = "openAppFromWidget";
@@ -36,11 +37,11 @@ public class StockWidgetProvider extends AppWidgetProvider {
             views.setRemoteAdapter(R.id.stock_widget_grid, intent);
 
             //pending intent to start app on click widget click
-            Intent launchMainActivityintent = new Intent(context, StockWidgetProvider.class);
-            launchMainActivityintent.setAction(ACTION_CLICK);
-            launchMainActivityintent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            Intent launchMainActivityIntent = new Intent(context, StockWidgetProvider.class);
+            launchMainActivityIntent.setAction(ACTION_CLICK);
+            launchMainActivityIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, launchMainActivityintent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, launchMainActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setPendingIntentTemplate(R.id.stock_widget_grid, pendingIntent);
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
@@ -49,12 +50,10 @@ public class StockWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        Timber.d("in onEnabled() setting onClick behaviour");
     }
 
     @Override
     public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 
     public static void sendRefreshBroadcast(Context context){
