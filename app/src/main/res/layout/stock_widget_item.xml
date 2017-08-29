@@ -36,3 +36,5 @@
 
 
 </LinearLayout>
+
+<!-- TODO SUGGESTION Move dimensions, colours, etc. to dimens.xml, colors.xml etc. -->

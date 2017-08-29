@@ -11,3 +11,6 @@
     android:background="@color/colorPrimaryDark">
 
 </GridView>
+
+    <!-- TODO SUGGESTION include an accurate previewImage - so users can see (preview) what they're adding -->
+    <!-- TODO SUGGESTION horizontal addition - vertical scrolling = unintuitive UX-->

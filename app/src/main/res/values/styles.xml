@@ -21,3 +21,5 @@
         <item name="android:textAllCaps">true</item>
     </style>
 </resources>
+
+<!-- TODO SUGGESTION Move all dimensions and colours to dimens.xml, colors.xml -->

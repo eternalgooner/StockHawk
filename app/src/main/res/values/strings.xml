@@ -51,3 +51,5 @@
     <string name="plusDollar" translatable="false">+$</string>
 
 </resources>
+
+<!-- TODO SUGGESTION Be mindful about exactly which Strings need / need not be translated -->
