@@ -49,6 +49,7 @@ public final class PrefUtils {
             Timber.d("adding: " + symbol + " to stocks");
             stocks.add(symbol);
         } else {
+            Timber.d("removing stock");
             stocks.remove(symbol);
         }
 
@@ -66,6 +67,7 @@ public final class PrefUtils {
     }
 
     public static void removeStock(Context context, String symbol) {
+        Timber.d("in removeStock()...");
         editStockPref(context, symbol, false);
     }
 
