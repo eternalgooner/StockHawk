@@ -47,4 +47,5 @@ class DbHelper extends SQLiteOpenHelper {
 
         onCreate(db);
     }
+
 }

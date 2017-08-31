@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import timber.log.Timber;
+
 
 public class StockProvider extends ContentProvider {
 
@@ -117,6 +119,7 @@ public class StockProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
+        Timber.d("in delete() in StockProvider... deleting stock from DB");
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
         int rowsDeleted;
 
