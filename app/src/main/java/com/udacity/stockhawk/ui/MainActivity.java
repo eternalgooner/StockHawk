@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     // TODO REQUIREMENT  Data Persistence - spurious behaviour with the storing of Stocks
     // TODO REQUIREMENT  e.g. if not stocks selected, app removed from stack, no data connection, app started, data connection up - back to default stock quotes
     // TODO REQUIREMENT  e.g.2. during add/remove of stocks some persist and some don't - launching app from widget shows different stock quotes between widget and app
+    // TODO-2 Good job!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
